@@ -75,6 +75,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Deploy Azure Web App : knowledge-center-content'
             inputs:
+              appType: webAppLinux
               azureSubscription: $(azureSubscription)
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
