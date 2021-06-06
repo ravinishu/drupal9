@@ -81,5 +81,5 @@ stages:
               deployToSlotOrASE: true
               ResourceGroupName: 'KC-Dev'
               SlotName: 'production'
-              packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
               RuntimeStack: 'PHP|7.3'
