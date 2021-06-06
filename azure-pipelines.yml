@@ -46,19 +46,12 @@ stages:
       workingDirectory: $(rootFolder)
       displayName: 'Composer install'
 
-    - task: ArchiveFiles@2
-      displayName: 'Archive files'
+    - task: PublishBuildArtifacts@1
       inputs:
-        rootFolderOrFile: '$(rootFolder)'
-        includeRootFolder: false
-        archiveType: zip
-        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-        replaceExistingArchive: true
-
-    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
-      displayName: 'Upload package'
-      artifact: drop
-
+        PathtoPublish: $(Build.ArtifactStagingDirectory)
+        ArtifactName: drop
+        publishLocation: Container
+      
 - stage: Deploy
   displayName: 'Deploy Web App'
   dependsOn: Build
