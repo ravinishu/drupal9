@@ -50,33 +50,21 @@ stages:
       inputs:
         rootFolderOrFile: '$(system.defaultWorkingDirectory)'
         includeRootFolder: false
+        archiveType: zip
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: $(Build.ArtifactStagingDirectory)
         ArtifactName: drop
-        publishLocation: Container
+
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Visual Studio Enterprise with MSDN (2d74e943-a1e3-4dad-ad75-ed7def3c9eeb)'
+        appType: 'webAppLinux'
+        WebAppName: 'knowledge-center-content'
+        deployToSlotOrASE: true
+        ResourceGroupName: 'KC-Dev'
+        SlotName: 'production'
+        packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+        RuntimeStack: 'PHP|7.3'        
       
-- stage: Deploy
-  displayName: 'Deploy Web App'
-  dependsOn: Build
-  condition: succeeded()
-  jobs:
-  - deployment: DeploymentJob
-    pool:
-      vmImage: $(vmImageName)
-    environment: $(environmentName)
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: AzureRmWebAppDeployment@4
-            inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Visual Studio Enterprise with MSDN (2d74e943-a1e3-4dad-ad75-ed7def3c9eeb)'
-              appType: 'webAppLinux'
-              WebAppName: 'knowledge-center-content'
-              deployToSlotOrASE: true
-              ResourceGroupName: 'KC-Dev'
-              SlotName: 'production'
-              packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-              RuntimeStack: 'PHP|7.3'
