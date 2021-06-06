@@ -8,7 +8,7 @@ trigger:
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
-  azureSubscription: 'df7f5050-b76b-47e5-a260-d31d552330b3'
+  azureSubscription: '2d74e943-a1e3-4dad-ad75-ed7def3c9eeb'
 
   # Web app name
   webAppName: 'knowledge-center-content'
